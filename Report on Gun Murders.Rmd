@@ -1,0 +1,40 @@
+---
+title: "Report on Gun Murders"
+author: "Logeswaran SR"
+date: "2023-11-13"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Introduction
+
+This is a report on 2010 gun murder rates obtained from FBI Reports. The original Data was obtained from [this Wikipedia Page](https://en.wikipedia.org/wiki/Murder_in_the_United_States_by_state).
+
+To work with it, we have used the library *Tidyverse*, which we have imported in the report already.
+
+The Dataset is already wrangled and saved in a file named: "murders.rda". We load the dataset with the following code
+
+```{r}
+load("rda/murders.rda")
+```
+
+The summary of the imported dataset is given as:
+
+```{r Summary, echo=FALSE}
+summary(murders)
+```
+
+## Murder Rate by State
+
+We note the large state to state variability by generating a barplot showing the murder rate by state:
+
+```{r murder-rate-by-state, echo=FALSE}
+murders %>% mutate(abb = reorder(abb, rate)) %>%
+  ggplot(aes(abb, rate)) +
+  geom_bar(width = 0.5, stat = "identity", color = "black") +
+  coord_flip()
+```
